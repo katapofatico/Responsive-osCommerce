@@ -18,8 +18,8 @@
     switch ($saction) {
       case 'insert_sub':
         $zID = tep_db_prepare_input($HTTP_GET_VARS['zID']);
-        $zone_country_id = tep_db_prepare_input($HTTP_POST_VARS['zone_country_id']);
-        $zone_id = tep_db_prepare_input($HTTP_POST_VARS['zone_id']);
+        $zone_country_id = tep_db_prepare_input($_POST['zone_country_id']);
+        $zone_id = tep_db_prepare_input($_POST['zone_id']);
 
         tep_db_query("insert into " . TABLE_ZONES_TO_GEO_ZONES . " (zone_country_id, zone_id, geo_zone_id, date_added) values ('" . (int)$zone_country_id . "', '" . (int)$zone_id . "', '" . (int)$zID . "', now())");
         $new_subzone_id = tep_db_insert_id();
@@ -29,8 +29,8 @@
       case 'save_sub':
         $sID = tep_db_prepare_input($HTTP_GET_VARS['sID']);
         $zID = tep_db_prepare_input($HTTP_GET_VARS['zID']);
-        $zone_country_id = tep_db_prepare_input($HTTP_POST_VARS['zone_country_id']);
-        $zone_id = tep_db_prepare_input($HTTP_POST_VARS['zone_id']);
+        $zone_country_id = tep_db_prepare_input($_POST['zone_country_id']);
+        $zone_id = tep_db_prepare_input($_POST['zone_id']);
 
         tep_db_query("update " . TABLE_ZONES_TO_GEO_ZONES . " set geo_zone_id = '" . (int)$zID . "', zone_country_id = '" . (int)$zone_country_id . "', zone_id = " . (tep_not_null($zone_id) ? "'" . (int)$zone_id . "'" : 'null') . ", last_modified = now() where association_id = '" . (int)$sID . "'");
 
@@ -51,8 +51,8 @@
   if (tep_not_null($action)) {
     switch ($action) {
       case 'insert_zone':
-        $geo_zone_name = tep_db_prepare_input($HTTP_POST_VARS['geo_zone_name']);
-        $geo_zone_description = tep_db_prepare_input($HTTP_POST_VARS['geo_zone_description']);
+        $geo_zone_name = tep_db_prepare_input($_POST['geo_zone_name']);
+        $geo_zone_description = tep_db_prepare_input($_POST['geo_zone_description']);
 
         tep_db_query("insert into " . TABLE_GEO_ZONES . " (geo_zone_name, geo_zone_description, date_added) values ('" . tep_db_input($geo_zone_name) . "', '" . tep_db_input($geo_zone_description) . "', now())");
         $new_zone_id = tep_db_insert_id();
@@ -61,8 +61,8 @@
         break;
       case 'save_zone':
         $zID = tep_db_prepare_input($HTTP_GET_VARS['zID']);
-        $geo_zone_name = tep_db_prepare_input($HTTP_POST_VARS['geo_zone_name']);
-        $geo_zone_description = tep_db_prepare_input($HTTP_POST_VARS['geo_zone_description']);
+        $geo_zone_name = tep_db_prepare_input($_POST['geo_zone_name']);
+        $geo_zone_description = tep_db_prepare_input($_POST['geo_zone_description']);
 
         tep_db_query("update " . TABLE_GEO_ZONES . " set geo_zone_name = '" . tep_db_input($geo_zone_name) . "', geo_zone_description = '" . tep_db_input($geo_zone_description) . "', last_modified = now() where geo_zone_id = '" . (int)$zID . "'");
 

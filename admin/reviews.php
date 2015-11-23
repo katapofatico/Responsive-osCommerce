@@ -27,9 +27,9 @@
         break;
       case 'update':
         $reviews_id = tep_db_prepare_input($HTTP_GET_VARS['rID']);
-        $reviews_rating = tep_db_prepare_input($HTTP_POST_VARS['reviews_rating']);
-        $reviews_text = tep_db_prepare_input($HTTP_POST_VARS['reviews_text']);
-        $reviews_status = tep_db_prepare_input($HTTP_POST_VARS['reviews_status']);
+        $reviews_rating = tep_db_prepare_input($_POST['reviews_rating']);
+        $reviews_text = tep_db_prepare_input($_POST['reviews_text']);
+        $reviews_status = tep_db_prepare_input($_POST['reviews_status']);
 
         tep_db_query("update " . TABLE_REVIEWS . " set reviews_rating = '" . tep_db_input($reviews_rating) . "', reviews_status = '" . tep_db_input($reviews_status) . "', last_modified = now() where reviews_id = '" . (int)$reviews_id . "'");
         tep_db_query("update " . TABLE_REVIEWS_DESCRIPTION . " set reviews_text = '" . tep_db_input($reviews_text) . "' where reviews_id = '" . (int)$reviews_id . "'");
@@ -120,8 +120,8 @@
       </form></tr>
 <?php
   } elseif ($action == 'preview') {
-    if (tep_not_null($HTTP_POST_VARS)) {
-      $rInfo = new objectInfo($HTTP_POST_VARS);
+    if (tep_not_null($_POST)) {
+      $rInfo = new objectInfo($_POST);
     } else {
       $rID = tep_db_prepare_input($HTTP_GET_VARS['rID']);
 
@@ -164,10 +164,10 @@
         <td><?php echo tep_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
       </tr>
 <?php
-    if (tep_not_null($HTTP_POST_VARS)) {
+    if (tep_not_null($_POST)) {
 /* Re-Post all POST'ed variables */
-      reset($HTTP_POST_VARS);
-      while (list($key, $value) = each($HTTP_POST_VARS)) echo tep_draw_hidden_field($key, htmlspecialchars(stripslashes($value)));
+      reset($_POST);
+      while (list($key, $value) = each($_POST)) echo tep_draw_hidden_field($key, htmlspecialchars(stripslashes($value)));
 ?>
       <tr>
         <td align="right" class="smallText"><?php echo tep_draw_button(IMAGE_SAVE, 'disk', null, 'primary') . tep_draw_button(IMAGE_CANCEL, 'close', tep_href_link(FILENAME_REVIEWS, 'page=' . $HTTP_GET_VARS['page'] . '&rID=' . $rInfo->reviews_id)); ?></td>

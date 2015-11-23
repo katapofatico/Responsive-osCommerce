@@ -19,7 +19,7 @@
       case 'insert':
       case 'save':
         if (isset($HTTP_GET_VARS['mID'])) $manufacturers_id = tep_db_prepare_input($HTTP_GET_VARS['mID']);
-        $manufacturers_name = tep_db_prepare_input($HTTP_POST_VARS['manufacturers_name']);
+        $manufacturers_name = tep_db_prepare_input($_POST['manufacturers_name']);
 
         $sql_data_array = array('manufacturers_name' => $manufacturers_name);
 
@@ -47,8 +47,8 @@
 
         $languages = tep_get_languages();
         for ($i=0, $n=sizeof($languages); $i<$n; $i++) {
-          $manufacturers_url_array = $HTTP_POST_VARS['manufacturers_url'];
-          $manufacturers_description_array = $HTTP_POST_VARS['manufacturers_description'];
+          $manufacturers_url_array = $_POST['manufacturers_url'];
+          $manufacturers_description_array = $_POST['manufacturers_description'];
           $language_id = $languages[$i]['id'];
 
           $sql_data_array = array('manufacturers_url' => tep_db_prepare_input($manufacturers_url_array[$language_id]));
@@ -75,7 +75,7 @@
       case 'deleteconfirm':
         $manufacturers_id = tep_db_prepare_input($HTTP_GET_VARS['mID']);
 
-        if (isset($HTTP_POST_VARS['delete_image']) && ($HTTP_POST_VARS['delete_image'] == 'on')) {
+        if (isset($_POST['delete_image']) && ($_POST['delete_image'] == 'on')) {
           $manufacturer_query = tep_db_query("select manufacturers_image from " . TABLE_MANUFACTURERS . " where manufacturers_id = '" . (int)$manufacturers_id . "'");
           $manufacturer = tep_db_fetch_array($manufacturer_query);
 
@@ -87,7 +87,7 @@
         tep_db_query("delete from " . TABLE_MANUFACTURERS . " where manufacturers_id = '" . (int)$manufacturers_id . "'");
         tep_db_query("delete from " . TABLE_MANUFACTURERS_INFO . " where manufacturers_id = '" . (int)$manufacturers_id . "'");
 
-        if (isset($HTTP_POST_VARS['delete_products']) && ($HTTP_POST_VARS['delete_products'] == 'on')) {
+        if (isset($_POST['delete_products']) && ($_POST['delete_products'] == 'on')) {
           $products_query = tep_db_query("select products_id from " . TABLE_PRODUCTS . " where manufacturers_id = '" . (int)$manufacturers_id . "'");
           while ($products = tep_db_fetch_array($products_query)) {
             tep_remove_product($products['products_id']);

@@ -25,10 +25,10 @@
         tep_redirect(tep_href_link(FILENAME_SPECIALS, (isset($HTTP_GET_VARS['page']) ? 'page=' . $HTTP_GET_VARS['page'] . '&' : '') . 'sID=' . $HTTP_GET_VARS['id']));
         break;
       case 'insert':
-        $products_id = tep_db_prepare_input($HTTP_POST_VARS['products_id']);
-        $products_price = tep_db_prepare_input($HTTP_POST_VARS['products_price']);
-        $specials_price = tep_db_prepare_input($HTTP_POST_VARS['specials_price']);
-        $expdate = tep_db_prepare_input($HTTP_POST_VARS['expdate']);
+        $products_id = tep_db_prepare_input($_POST['products_id']);
+        $products_price = tep_db_prepare_input($_POST['products_price']);
+        $specials_price = tep_db_prepare_input($_POST['specials_price']);
+        $expdate = tep_db_prepare_input($_POST['expdate']);
 
         if (substr($specials_price, -1) == '%') {
           $new_special_insert_query = tep_db_query("select products_id, products_price from " . TABLE_PRODUCTS . " where products_id = '" . (int)$products_id . "'");
@@ -48,10 +48,10 @@
         tep_redirect(tep_href_link(FILENAME_SPECIALS, 'page=' . $HTTP_GET_VARS['page']));
         break;
       case 'update':
-        $specials_id = tep_db_prepare_input($HTTP_POST_VARS['specials_id']);
-        $products_price = tep_db_prepare_input($HTTP_POST_VARS['products_price']);
-        $specials_price = tep_db_prepare_input($HTTP_POST_VARS['specials_price']);
-        $expdate = tep_db_prepare_input($HTTP_POST_VARS['expdate']);
+        $specials_id = tep_db_prepare_input($_POST['specials_id']);
+        $products_price = tep_db_prepare_input($_POST['products_price']);
+        $specials_price = tep_db_prepare_input($_POST['specials_price']);
+        $expdate = tep_db_prepare_input($_POST['expdate']);
 
         if (substr($specials_price, -1) == '%') $specials_price = ($products_price - (($specials_price / 100) * $products_price));
 

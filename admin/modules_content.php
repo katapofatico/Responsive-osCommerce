@@ -97,7 +97,7 @@
 
         foreach ( $modules['installed'] as $m ) {
           if ( $m['code'] == $class ) {
-            foreach ($HTTP_POST_VARS['configuration'] as $key => $value) {
+            foreach ($_POST['configuration'] as $key => $value) {
               $key = tep_db_prepare_input($key);
               $value = tep_db_prepare_input($value);
 

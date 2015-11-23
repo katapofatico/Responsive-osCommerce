@@ -25,12 +25,12 @@
   if (tep_not_null($action)) {
     switch ($action) {
       case 'process':
-        if (tep_session_is_registered('redirect_origin') && isset($redirect_origin['auth_user']) && !isset($HTTP_POST_VARS['username'])) {
+        if (tep_session_is_registered('redirect_origin') && isset($redirect_origin['auth_user']) && !isset($_POST['username'])) {
           $username = tep_db_prepare_input($redirect_origin['auth_user']);
           $password = tep_db_prepare_input($redirect_origin['auth_pw']);
         } else {
-          $username = tep_db_prepare_input($HTTP_POST_VARS['username']);
-          $password = tep_db_prepare_input($HTTP_POST_VARS['password']);
+          $username = tep_db_prepare_input($_POST['username']);
+          $password = tep_db_prepare_input($_POST['password']);
         }
 
         $actionRecorder = new actionRecorderAdmin('ar_admin_login', null, $username);
@@ -72,14 +72,14 @@
             }
           }
 
-          if (isset($HTTP_POST_VARS['username'])) {
+          if (isset($_POST['username'])) {
             $messageStack->add(ERROR_INVALID_ADMINISTRATOR, 'error');
           }
         } else {
           $messageStack->add(sprintf(ERROR_ACTION_RECORDER, (defined('MODULE_ACTION_RECORDER_ADMIN_LOGIN_MINUTES') ? (int)MODULE_ACTION_RECORDER_ADMIN_LOGIN_MINUTES : 5)));
         }
 
-        if (isset($HTTP_POST_VARS['username'])) {
+        if (isset($_POST['username'])) {
           $actionRecorder->record(false);
         }
 
@@ -101,8 +101,8 @@
         $check_query = tep_db_query("select id from " . TABLE_ADMINISTRATORS . " limit 1");
 
         if (tep_db_num_rows($check_query) == 0) {
-          $username = tep_db_prepare_input($HTTP_POST_VARS['username']);
-          $password = tep_db_prepare_input($HTTP_POST_VARS['password']);
+          $username = tep_db_prepare_input($_POST['username']);
+          $password = tep_db_prepare_input($_POST['password']);
 
           if ( !empty($username) ) {
             tep_db_query("insert into " . TABLE_ADMINISTRATORS . " (user_name, user_password) values ('" . tep_db_input($username) . "', '" . tep_db_input(tep_encrypt_password($password)) . "')");

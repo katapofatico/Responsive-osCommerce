@@ -17,7 +17,7 @@
   if (tep_not_null($action)) {
     switch ($action) {
       case 'save':
-        $configuration_value = tep_db_prepare_input($HTTP_POST_VARS['configuration_value']);
+        $configuration_value = tep_db_prepare_input($_POST['configuration_value']);
         $cID = tep_db_prepare_input($HTTP_GET_VARS['cID']);
 
         tep_db_query("update " . TABLE_CONFIGURATION . " set configuration_value = '" . tep_db_input($configuration_value) . "', last_modified = now() where configuration_id = '" . (int)$cID . "'");

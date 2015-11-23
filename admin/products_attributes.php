@@ -24,8 +24,8 @@
   if (tep_not_null($action)) {
     switch ($action) {
       case 'add_product_options':
-        $products_options_id = tep_db_prepare_input($HTTP_POST_VARS['products_options_id']);
-        $option_name_array = $HTTP_POST_VARS['option_name'];
+        $products_options_id = tep_db_prepare_input($_POST['products_options_id']);
+        $option_name_array = $_POST['option_name'];
 
         for ($i=0, $n=sizeof($languages); $i<$n; $i ++) {
           $option_name = tep_db_prepare_input($option_name_array[$languages[$i]['id']]);
@@ -35,9 +35,9 @@
         tep_redirect(tep_href_link(FILENAME_PRODUCTS_ATTRIBUTES, $page_info));
         break;
       case 'add_product_option_values':
-        $value_name_array = $HTTP_POST_VARS['value_name'];
-        $value_id = tep_db_prepare_input($HTTP_POST_VARS['value_id']);
-        $option_id = tep_db_prepare_input($HTTP_POST_VARS['option_id']);
+        $value_name_array = $_POST['value_name'];
+        $value_id = tep_db_prepare_input($_POST['value_id']);
+        $option_id = tep_db_prepare_input($_POST['option_id']);
 
         for ($i=0, $n=sizeof($languages); $i<$n; $i ++) {
           $value_name = tep_db_prepare_input($value_name_array[$languages[$i]['id']]);
@@ -50,20 +50,20 @@
         tep_redirect(tep_href_link(FILENAME_PRODUCTS_ATTRIBUTES, $page_info));
         break;
       case 'add_product_attributes':
-        $products_id = tep_db_prepare_input($HTTP_POST_VARS['products_id']);
-        $options_id = tep_db_prepare_input($HTTP_POST_VARS['options_id']);
-        $values_id = tep_db_prepare_input($HTTP_POST_VARS['values_id']);
-        $value_price = tep_db_prepare_input($HTTP_POST_VARS['value_price']);
-        $price_prefix = tep_db_prepare_input($HTTP_POST_VARS['price_prefix']);
+        $products_id = tep_db_prepare_input($_POST['products_id']);
+        $options_id = tep_db_prepare_input($_POST['options_id']);
+        $values_id = tep_db_prepare_input($_POST['values_id']);
+        $value_price = tep_db_prepare_input($_POST['value_price']);
+        $price_prefix = tep_db_prepare_input($_POST['price_prefix']);
 
         tep_db_query("insert into " . TABLE_PRODUCTS_ATTRIBUTES . " values (null, '" . (int)$products_id . "', '" . (int)$options_id . "', '" . (int)$values_id . "', '" . (float)tep_db_input($value_price) . "', '" . tep_db_input($price_prefix) . "')");
 
         if (DOWNLOAD_ENABLED == 'true') {
           $products_attributes_id = tep_db_insert_id();
 
-          $products_attributes_filename = tep_db_prepare_input($HTTP_POST_VARS['products_attributes_filename']);
-          $products_attributes_maxdays = tep_db_prepare_input($HTTP_POST_VARS['products_attributes_maxdays']);
-          $products_attributes_maxcount = tep_db_prepare_input($HTTP_POST_VARS['products_attributes_maxcount']);
+          $products_attributes_filename = tep_db_prepare_input($_POST['products_attributes_filename']);
+          $products_attributes_maxdays = tep_db_prepare_input($_POST['products_attributes_maxdays']);
+          $products_attributes_maxcount = tep_db_prepare_input($_POST['products_attributes_maxcount']);
 
           if (tep_not_null($products_attributes_filename)) {
             tep_db_query("insert into " . TABLE_PRODUCTS_ATTRIBUTES_DOWNLOAD . " values (" . (int)$products_attributes_id . ", '" . tep_db_input($products_attributes_filename) . "', '" . tep_db_input($products_attributes_maxdays) . "', '" . tep_db_input($products_attributes_maxcount) . "')");
@@ -73,8 +73,8 @@
         tep_redirect(tep_href_link(FILENAME_PRODUCTS_ATTRIBUTES, $page_info));
         break;
       case 'update_option_name':
-        $option_name_array = $HTTP_POST_VARS['option_name'];
-        $option_id = tep_db_prepare_input($HTTP_POST_VARS['option_id']);
+        $option_name_array = $_POST['option_name'];
+        $option_id = tep_db_prepare_input($_POST['option_id']);
 
         for ($i=0, $n=sizeof($languages); $i<$n; $i ++) {
           $option_name = tep_db_prepare_input($option_name_array[$languages[$i]['id']]);
@@ -85,9 +85,9 @@
         tep_redirect(tep_href_link(FILENAME_PRODUCTS_ATTRIBUTES, $page_info));
         break;
       case 'update_value':
-        $value_name_array = $HTTP_POST_VARS['value_name'];
-        $value_id = tep_db_prepare_input($HTTP_POST_VARS['value_id']);
-        $option_id = tep_db_prepare_input($HTTP_POST_VARS['option_id']);
+        $value_name_array = $_POST['value_name'];
+        $value_id = tep_db_prepare_input($_POST['value_id']);
+        $option_id = tep_db_prepare_input($_POST['option_id']);
 
         for ($i=0, $n=sizeof($languages); $i<$n; $i ++) {
           $value_name = tep_db_prepare_input($value_name_array[$languages[$i]['id']]);
@@ -100,19 +100,19 @@
         tep_redirect(tep_href_link(FILENAME_PRODUCTS_ATTRIBUTES, $page_info));
         break;
       case 'update_product_attribute':
-        $products_id = tep_db_prepare_input($HTTP_POST_VARS['products_id']);
-        $options_id = tep_db_prepare_input($HTTP_POST_VARS['options_id']);
-        $values_id = tep_db_prepare_input($HTTP_POST_VARS['values_id']);
-        $value_price = tep_db_prepare_input($HTTP_POST_VARS['value_price']);
-        $price_prefix = tep_db_prepare_input($HTTP_POST_VARS['price_prefix']);
-        $attribute_id = tep_db_prepare_input($HTTP_POST_VARS['attribute_id']);
+        $products_id = tep_db_prepare_input($_POST['products_id']);
+        $options_id = tep_db_prepare_input($_POST['options_id']);
+        $values_id = tep_db_prepare_input($_POST['values_id']);
+        $value_price = tep_db_prepare_input($_POST['value_price']);
+        $price_prefix = tep_db_prepare_input($_POST['price_prefix']);
+        $attribute_id = tep_db_prepare_input($_POST['attribute_id']);
 
         tep_db_query("update " . TABLE_PRODUCTS_ATTRIBUTES . " set products_id = '" . (int)$products_id . "', options_id = '" . (int)$options_id . "', options_values_id = '" . (int)$values_id . "', options_values_price = '" . (float)tep_db_input($value_price) . "', price_prefix = '" . tep_db_input($price_prefix) . "' where products_attributes_id = '" . (int)$attribute_id . "'");
 
         if (DOWNLOAD_ENABLED == 'true') {
-          $products_attributes_filename = tep_db_prepare_input($HTTP_POST_VARS['products_attributes_filename']);
-          $products_attributes_maxdays = tep_db_prepare_input($HTTP_POST_VARS['products_attributes_maxdays']);
-          $products_attributes_maxcount = tep_db_prepare_input($HTTP_POST_VARS['products_attributes_maxcount']);
+          $products_attributes_filename = tep_db_prepare_input($_POST['products_attributes_filename']);
+          $products_attributes_maxdays = tep_db_prepare_input($_POST['products_attributes_maxdays']);
+          $products_attributes_maxcount = tep_db_prepare_input($_POST['products_attributes_maxcount']);
 
           if (tep_not_null($products_attributes_filename)) {
             tep_db_query("replace into " . TABLE_PRODUCTS_ATTRIBUTES_DOWNLOAD . " set products_attributes_id = '" . (int)$attribute_id . "', products_attributes_filename = '" . tep_db_input($products_attributes_filename) . "', products_attributes_maxdays = '" . tep_db_input($products_attributes_maxdays) . "', products_attributes_maxcount = '" . tep_db_input($products_attributes_maxcount) . "'");

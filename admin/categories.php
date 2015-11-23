@@ -35,8 +35,8 @@
         break;
       case 'insert_category':
       case 'update_category':
-        if (isset($HTTP_POST_VARS['categories_id'])) $categories_id = tep_db_prepare_input($HTTP_POST_VARS['categories_id']);
-        $sort_order = tep_db_prepare_input($HTTP_POST_VARS['sort_order']);
+        if (isset($_POST['categories_id'])) $categories_id = tep_db_prepare_input($_POST['categories_id']);
+        $sort_order = tep_db_prepare_input($_POST['sort_order']);
 
         $sql_data_array = array('sort_order' => (int)$sort_order);
 
@@ -59,8 +59,8 @@
 
         $languages = tep_get_languages();
         for ($i=0, $n=sizeof($languages); $i<$n; $i++) {
-          $categories_name_array = $HTTP_POST_VARS['categories_name'];
-          $categories_description_array = $HTTP_POST_VARS['categories_description'];
+          $categories_name_array = $_POST['categories_name'];
+          $categories_description_array = $_POST['categories_description'];
 
           $language_id = $languages[$i]['id'];
 
@@ -94,8 +94,8 @@
         tep_redirect(tep_href_link(FILENAME_CATEGORIES, 'cPath=' . $cPath . '&cID=' . $categories_id));
         break;
       case 'delete_category_confirm':
-        if (isset($HTTP_POST_VARS['categories_id'])) {
-          $categories_id = tep_db_prepare_input($HTTP_POST_VARS['categories_id']);
+        if (isset($_POST['categories_id'])) {
+          $categories_id = tep_db_prepare_input($_POST['categories_id']);
 
           $categories = tep_get_category_tree($categories_id, '', '0', '', true);
           $products = array();
@@ -145,9 +145,9 @@
         tep_redirect(tep_href_link(FILENAME_CATEGORIES, 'cPath=' . $cPath));
         break;
       case 'delete_product_confirm':
-        if (isset($HTTP_POST_VARS['products_id']) && isset($HTTP_POST_VARS['product_categories']) && is_array($HTTP_POST_VARS['product_categories'])) {
-          $product_id = tep_db_prepare_input($HTTP_POST_VARS['products_id']);
-          $product_categories = $HTTP_POST_VARS['product_categories'];
+        if (isset($_POST['products_id']) && isset($_POST['product_categories']) && is_array($_POST['product_categories'])) {
+          $product_id = tep_db_prepare_input($_POST['products_id']);
+          $product_categories = $_POST['product_categories'];
 
           for ($i=0, $n=sizeof($product_categories); $i<$n; $i++) {
             tep_db_query("delete from " . TABLE_PRODUCTS_TO_CATEGORIES . " where products_id = '" . (int)$product_id . "' and categories_id = '" . (int)$product_categories[$i] . "'");
@@ -169,9 +169,9 @@
         tep_redirect(tep_href_link(FILENAME_CATEGORIES, 'cPath=' . $cPath));
         break;
       case 'move_category_confirm':
-        if (isset($HTTP_POST_VARS['categories_id']) && ($HTTP_POST_VARS['categories_id'] != $HTTP_POST_VARS['move_to_category_id'])) {
-          $categories_id = tep_db_prepare_input($HTTP_POST_VARS['categories_id']);
-          $new_parent_id = tep_db_prepare_input($HTTP_POST_VARS['move_to_category_id']);
+        if (isset($_POST['categories_id']) && ($_POST['categories_id'] != $_POST['move_to_category_id'])) {
+          $categories_id = tep_db_prepare_input($_POST['categories_id']);
+          $new_parent_id = tep_db_prepare_input($_POST['move_to_category_id']);
 
           $path = explode('_', tep_get_generated_category_path_ids($new_parent_id));
 
@@ -193,8 +193,8 @@
 
         break;
       case 'move_product_confirm':
-        $products_id = tep_db_prepare_input($HTTP_POST_VARS['products_id']);
-        $new_parent_id = tep_db_prepare_input($HTTP_POST_VARS['move_to_category_id']);
+        $products_id = tep_db_prepare_input($_POST['products_id']);
+        $new_parent_id = tep_db_prepare_input($_POST['move_to_category_id']);
 
         $duplicate_check_query = tep_db_query("select count(*) as total from " . TABLE_PRODUCTS_TO_CATEGORIES . " where products_id = '" . (int)$products_id . "' and categories_id = '" . (int)$new_parent_id . "'");
         $duplicate_check = tep_db_fetch_array($duplicate_check_query);
@@ -210,18 +210,18 @@
       case 'insert_product':
       case 'update_product':
         if (isset($HTTP_GET_VARS['pID'])) $products_id = tep_db_prepare_input($HTTP_GET_VARS['pID']);
-        $products_date_available = tep_db_prepare_input($HTTP_POST_VARS['products_date_available']);
+        $products_date_available = tep_db_prepare_input($_POST['products_date_available']);
 
         $products_date_available = (date('Y-m-d') < $products_date_available) ? $products_date_available : 'null';
 
-        $sql_data_array = array('products_quantity' => (int)tep_db_prepare_input($HTTP_POST_VARS['products_quantity']),
-                                'products_model' => tep_db_prepare_input($HTTP_POST_VARS['products_model']),
-                                'products_price' => tep_db_prepare_input($HTTP_POST_VARS['products_price']),
+        $sql_data_array = array('products_quantity' => (int)tep_db_prepare_input($_POST['products_quantity']),
+                                'products_model' => tep_db_prepare_input($_POST['products_model']),
+                                'products_price' => tep_db_prepare_input($_POST['products_price']),
                                 'products_date_available' => $products_date_available,
-                                'products_weight' => (float)tep_db_prepare_input($HTTP_POST_VARS['products_weight']),
-                                'products_status' => tep_db_prepare_input($HTTP_POST_VARS['products_status']),
-                                'products_tax_class_id' => tep_db_prepare_input($HTTP_POST_VARS['products_tax_class_id']),
-                                'manufacturers_id' => (int)tep_db_prepare_input($HTTP_POST_VARS['manufacturers_id']));
+                                'products_weight' => (float)tep_db_prepare_input($_POST['products_weight']),
+                                'products_status' => tep_db_prepare_input($_POST['products_status']),
+                                'products_tax_class_id' => tep_db_prepare_input($_POST['products_tax_class_id']),
+                                'manufacturers_id' => (int)tep_db_prepare_input($_POST['manufacturers_id']));
 
         $products_image = new upload('products_image');
         $products_image->set_destination(DIR_FS_CATALOG_IMAGES);
@@ -250,9 +250,9 @@
         for ($i=0, $n=sizeof($languages); $i<$n; $i++) {
           $language_id = $languages[$i]['id'];
 
-          $sql_data_array = array('products_name' => tep_db_prepare_input($HTTP_POST_VARS['products_name'][$language_id]),
-                                  'products_description' => tep_db_prepare_input($HTTP_POST_VARS['products_description'][$language_id]),
-                                  'products_url' => tep_db_prepare_input($HTTP_POST_VARS['products_url'][$language_id]));
+          $sql_data_array = array('products_name' => tep_db_prepare_input($_POST['products_name'][$language_id]),
+                                  'products_description' => tep_db_prepare_input($_POST['products_description'][$language_id]),
+                                  'products_url' => tep_db_prepare_input($_POST['products_url'][$language_id]));
 
           if ($action == 'insert_product') {
             $insert_sql_data = array('products_id' => $products_id,
@@ -274,7 +274,7 @@
           if (preg_match('/^products_image_large_([0-9]+)$/', $key, $matches)) {
             $pi_sort_order++;
 
-            $sql_data_array = array('htmlcontent' => tep_db_prepare_input($HTTP_POST_VARS['products_image_htmlcontent_' . $matches[1]]),
+            $sql_data_array = array('htmlcontent' => tep_db_prepare_input($_POST['products_image_htmlcontent_' . $matches[1]]),
                                     'sort_order' => $pi_sort_order);
 
             $t = new upload($key);
@@ -289,7 +289,7 @@
           } elseif (preg_match('/^products_image_large_new_([0-9]+)$/', $key, $matches)) {
 // Insert new large product images
             $sql_data_array = array('products_id' => (int)$products_id,
-                                    'htmlcontent' => tep_db_prepare_input($HTTP_POST_VARS['products_image_htmlcontent_new_' . $matches[1]]));
+                                    'htmlcontent' => tep_db_prepare_input($_POST['products_image_htmlcontent_new_' . $matches[1]]));
 
             $t = new upload($key);
             $t->set_destination(DIR_FS_CATALOG_IMAGES);
@@ -330,11 +330,11 @@
         tep_redirect(tep_href_link(FILENAME_CATEGORIES, 'cPath=' . $cPath . '&pID=' . $products_id));
         break;
       case 'copy_to_confirm':
-        if (isset($HTTP_POST_VARS['products_id']) && isset($HTTP_POST_VARS['categories_id'])) {
-          $products_id = tep_db_prepare_input($HTTP_POST_VARS['products_id']);
-          $categories_id = tep_db_prepare_input($HTTP_POST_VARS['categories_id']);
+        if (isset($_POST['products_id']) && isset($_POST['categories_id'])) {
+          $products_id = tep_db_prepare_input($_POST['products_id']);
+          $categories_id = tep_db_prepare_input($_POST['categories_id']);
 
-          if ($HTTP_POST_VARS['copy_as'] == 'link') {
+          if ($_POST['copy_as'] == 'link') {
             if ($categories_id != $current_category_id) {
               $check_query = tep_db_query("select count(*) as total from " . TABLE_PRODUCTS_TO_CATEGORIES . " where products_id = '" . (int)$products_id . "' and categories_id = '" . (int)$categories_id . "'");
               $check = tep_db_fetch_array($check_query);
@@ -344,7 +344,7 @@
             } else {
               $messageStack->add_session(ERROR_CANNOT_LINK_TO_SAME_CATEGORY, 'error');
             }
-          } elseif ($HTTP_POST_VARS['copy_as'] == 'duplicate') {
+          } elseif ($_POST['copy_as'] == 'duplicate') {
             $product_query = tep_db_query("select products_quantity, products_model, products_image, products_price, products_date_available, products_weight, products_tax_class_id, manufacturers_id from " . TABLE_PRODUCTS . " where products_id = '" . (int)$products_id . "'");
             $product = tep_db_fetch_array($product_query);
 
@@ -405,7 +405,7 @@
 
     $pInfo = new objectInfo($parameters);
 
-    if (isset($HTTP_GET_VARS['pID']) && empty($HTTP_POST_VARS)) {
+    if (isset($HTTP_GET_VARS['pID']) && empty($_POST)) {
       $product_query = tep_db_query("select pd.products_name, pd.products_description, pd.products_url, p.products_id, p.products_quantity, p.products_model, p.products_image, p.products_price, p.products_weight, p.products_date_added, p.products_last_modified, date_format(p.products_date_available, '%Y-%m-%d') as products_date_available, p.products_status, p.products_tax_class_id, p.manufacturers_id from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_id = '" . (int)$HTTP_GET_VARS['pID'] . "' and p.products_id = pd.products_id and pd.language_id = '" . (int)$languages_id . "'");
       $product = tep_db_fetch_array($product_query);
 

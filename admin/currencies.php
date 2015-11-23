@@ -22,14 +22,14 @@
       case 'insert':
       case 'save':
         if (isset($HTTP_GET_VARS['cID'])) $currency_id = tep_db_prepare_input($HTTP_GET_VARS['cID']);
-        $title = tep_db_prepare_input($HTTP_POST_VARS['title']);
-        $code = tep_db_prepare_input($HTTP_POST_VARS['code']);
-        $symbol_left = tep_db_prepare_input($HTTP_POST_VARS['symbol_left']);
-        $symbol_right = tep_db_prepare_input($HTTP_POST_VARS['symbol_right']);
-        $decimal_point = tep_db_prepare_input($HTTP_POST_VARS['decimal_point']);
-        $thousands_point = tep_db_prepare_input($HTTP_POST_VARS['thousands_point']);
-        $decimal_places = tep_db_prepare_input($HTTP_POST_VARS['decimal_places']);
-        $value = tep_db_prepare_input($HTTP_POST_VARS['value']);
+        $title = tep_db_prepare_input($_POST['title']);
+        $code = tep_db_prepare_input($_POST['code']);
+        $symbol_left = tep_db_prepare_input($_POST['symbol_left']);
+        $symbol_right = tep_db_prepare_input($_POST['symbol_right']);
+        $decimal_point = tep_db_prepare_input($_POST['decimal_point']);
+        $thousands_point = tep_db_prepare_input($_POST['thousands_point']);
+        $decimal_places = tep_db_prepare_input($_POST['decimal_places']);
+        $value = tep_db_prepare_input($_POST['value']);
 
         $sql_data_array = array('title' => $title,
                                 'code' => $code,
@@ -47,7 +47,7 @@
           tep_db_perform(TABLE_CURRENCIES, $sql_data_array, 'update', "currencies_id = '" . (int)$currency_id . "'");
         }
 
-        if (isset($HTTP_POST_VARS['default']) && ($HTTP_POST_VARS['default'] == 'on')) {
+        if (isset($_POST['default']) && ($_POST['default'] == 'on')) {
           tep_db_query("update " . TABLE_CONFIGURATION . " set configuration_value = '" . tep_db_input($code) . "' where configuration_key = 'DEFAULT_CURRENCY'");
         }
 

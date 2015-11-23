@@ -127,8 +127,8 @@
 
         fclose($fp);
 
-        if (isset($HTTP_POST_VARS['download']) && ($HTTP_POST_VARS['download'] == 'yes')) {
-          switch ($HTTP_POST_VARS['compress']) {
+        if (isset($_POST['download']) && ($_POST['download'] == 'yes')) {
+          switch ($_POST['compress']) {
             case 'gzip':
               exec(LOCAL_EXE_GZIP . ' ' . DIR_FS_BACKUP . $backup_file);
               $backup_file .= '.gz';
@@ -146,7 +146,7 @@
 
           exit;
         } else {
-          switch ($HTTP_POST_VARS['compress']) {
+          switch ($_POST['compress']) {
             case 'gzip':
               exec(LOCAL_EXE_GZIP . ' ' . DIR_FS_BACKUP . $backup_file);
               break;
