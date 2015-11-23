@@ -269,7 +269,7 @@
         $pi_sort_order = 0;
         $piArray = array(0);
 
-        foreach ($HTTP_POST_FILES as $key => $value) {
+        foreach ($_FILES as $key => $value) {
 // Update existing large product images
           if (preg_match('/^products_image_large_([0-9]+)$/', $key, $matches)) {
             $pi_sort_order++;

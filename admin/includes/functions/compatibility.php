@@ -34,7 +34,7 @@
     $_POST =& $_POST;
     $_COOKIE =& $_COOKIE;
     $_SESSION =& $_SESSION;
-    $HTTP_POST_FILES =& $_FILES;
+    $_FILES =& $_FILES;
     $HTTP_SERVER_VARS =& $_SERVER;
   } else {
     if (!is_array($_GET)) $_GET = array();
