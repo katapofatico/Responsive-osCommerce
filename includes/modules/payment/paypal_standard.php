@@ -14,7 +14,7 @@
     var $code, $title, $description, $enabled;
 
     function paypal_standard() {
-      global $HTTP_GET_VARS, $PHP_SELF, $order;
+      global $_GET, $PHP_SELF, $order;
 
       $this->signature = 'paypal|paypal_standard|3.1|2.3';
 
@@ -61,7 +61,7 @@
         }
       }
 
-      if ( defined('FILENAME_MODULES') && ($PHP_SELF == FILENAME_MODULES) && isset($HTTP_GET_VARS['action']) && ($HTTP_GET_VARS['action'] == 'install') && isset($HTTP_GET_VARS['subaction']) && ($HTTP_GET_VARS['subaction'] == 'conntest') ) {
+      if ( defined('FILENAME_MODULES') && ($PHP_SELF == FILENAME_MODULES) && isset($_GET['action']) && ($_GET['action'] == 'install') && isset($_GET['subaction']) && ($_GET['subaction'] == 'conntest') ) {
         echo $this->getTestConnectionResult();
         exit;
       }
@@ -495,7 +495,7 @@
     }
 
     function before_process() {
-      global $customer_id, $order, $order_totals, $sendto, $billto, $languages_id, $payment, $currencies, $cart, $cart_PayPal_Standard_ID, $$payment, $HTTP_GET_VARS, $_POST, $messageStack;
+      global $customer_id, $order, $order_totals, $sendto, $billto, $languages_id, $payment, $currencies, $cart, $cart_PayPal_Standard_ID, $$payment, $_GET, $_POST, $messageStack;
 
       $result = false;
 
@@ -946,7 +946,7 @@
     }
 
     function sendDebugEmail($response = '', $ipn = false) {
-      global $_POST, $HTTP_GET_VARS;
+      global $_POST, $_GET;
 
       if (tep_not_null(MODULE_PAYMENT_PAYPAL_STANDARD_DEBUG_EMAIL)) {
         $email_body = '';
@@ -959,8 +959,8 @@
           $email_body .= '$_POST:' . "\n\n" . print_r($_POST, true) . "\n\n";
         }
 
-        if (!empty($HTTP_GET_VARS)) {
-          $email_body .= '$HTTP_GET_VARS:' . "\n\n" . print_r($HTTP_GET_VARS, true) . "\n\n";
+        if (!empty($_GET)) {
+          $email_body .= '$_GET:' . "\n\n" . print_r($_GET, true) . "\n\n";
         }
 
         if (!empty($email_body)) {
