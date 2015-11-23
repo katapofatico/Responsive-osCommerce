@@ -161,7 +161,7 @@
       $redirect = true;
     }
 
-    if (!isset($login_request) || isset($_GET['login_request']) || isset($_POST['login_request']) || isset($HTTP_COOKIE_VARS['login_request']) || isset($_SESSION['login_request']) || isset($HTTP_POST_FILES['login_request']) || isset($HTTP_SERVER_VARS['login_request'])) {
+    if (!isset($login_request) || isset($_GET['login_request']) || isset($_POST['login_request']) || isset($_COOKIE['login_request']) || isset($_SESSION['login_request']) || isset($HTTP_POST_FILES['login_request']) || isset($HTTP_SERVER_VARS['login_request'])) {
       $redirect = true;
     }
 
