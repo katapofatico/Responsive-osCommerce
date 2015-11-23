@@ -33,7 +33,7 @@
     $_GET =& $_GET;
     $_POST =& $_POST;
     $HTTP_COOKIE_VARS =& $_COOKIE;
-    $HTTP_SESSION_VARS =& $_SESSION;
+    $_SESSION =& $_SESSION;
     $HTTP_POST_FILES =& $_FILES;
     $HTTP_SERVER_VARS =& $_SERVER;
   } else {
