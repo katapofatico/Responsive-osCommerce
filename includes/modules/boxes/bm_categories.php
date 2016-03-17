@@ -33,7 +33,7 @@
     function execute() {
         global $oscTemplate, $cPath, $PHP_SELF;
 
-        if (tep_not_null(MODULE_BOXES_CATEGORIES_PAGES)) {
+        if (defined('MODULE_BOXES_CATEGORIES_PAGES') && tep_not_null(MODULE_BOXES_CATEGORIES_PAGES)) {
             $pages_array = array();
 
             foreach (explode(';', MODULE_BOXES_CATEGORIES_PAGES) as $page) {
